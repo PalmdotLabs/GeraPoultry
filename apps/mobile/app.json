@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Poultry Farm",
+    "slug": "poultry-farm",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "bundleIdentifier": "com.palmlabs.poultryfarm"
+    },
+    "android": {
+      "package": "com.palmlabs.poultryfarm"
+    },
+    "plugins": ["expo-secure-store"]
+  }
+}

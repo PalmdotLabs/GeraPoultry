@@ -1,0 +1,11 @@
+**/node_modules/**
+**/.pnpm-store/**
+**/.expo/**
+**/.next/**
+**/out/**
+**/dist/**
+**/build/**
+**/coverage/**
+**/pnpm-*.yaml
+**/next-env.d.ts
+**/.env*

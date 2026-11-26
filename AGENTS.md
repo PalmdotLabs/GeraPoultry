@@ -1,8 +1,10 @@
 # Project instructions
 
+Start project-specific work by reading [`docs/README.md`](docs/README.md), then the relevant architecture, workflow or decision document. Keep repo docs aligned with accepted Notion decisions and the approved scope files when they become available.
+
 ## Objective and scope
 
-Build the Poultry Farm & Feed Mill Management System for Palm Labs' client. Use the existing proposal and Detailed Scope & Workflow Specification v1.0 as the source of truth. The Notion project page lists the agreed scope, current tasks, open decisions, commercial baseline, and Architecture Decision Record ADR-001:
+Build the Poultry Farm & Feed Mill Management System for Palm Labs' client. Use the existing proposal and Detailed Scope & Workflow Specification v1.0 as the source of truth. The Notion project page lists the agreed scope, current tasks, recorded workflow decisions, commercial baseline, and Architecture Decision Record ADR-001:
 https://app.notion.com/p/4074da26a3cf81c98ae9f8b8c5d8db55
 
 In-scope workflows include flock, shed and vaccination; feed mill and feed costing; ingredient, medicine, chick, egg and paper-tray purchases; egg stock, cold storage and sales; payments and receivables; tray ledger; expenses; reports; testing, deployment and basic handover. Preserve the approved workflow boundaries. Raise material additions or workflow changes as written change requests before implementing chargeable work.
@@ -19,25 +21,25 @@ In-scope workflows include flock, shed and vaccination; feed mill and feed costi
 ## Commercial and operational constraints
 
 - Fee ₹30,000: ₹15,000 advance before development begins, ₹15,000 after agreed MVP delivery.
-- The advance has not been recorded as paid. Never change payment status without evidence and explicit instruction.
+- The owner has directed that kickoff formalities be treated as complete for work sequencing. The advance is still not recorded as paid; never change payment status without evidence and an explicit request.
 - Six months from delivery for bug fixes and minor changes within approved scope; new modules/features and major workflow changes are excluded absent written approval.
 - Client owns and pays for production backend/database, web hosting/server, domain, email/push and other subscriptions.
 - Do not create or push a remote GitHub repository. Do not spend money. Do not expose secrets or commit real credentials.
-- Keep current Notion tasks and open decisions intact; update task status only when the work actually meets its criteria.
+- Keep Notion task history and payment data intact; synchronize the recorded workflow decisions and update task status only when the work actually meets its criteria.
 
-## Existing records and open decisions
+## Existing records and recorded decisions
 
 - Project page: https://app.notion.com/p/4074da26a3cf81c98ae9f8b8c5d8db55
 - Client onboarding page: https://app.notion.com/p/4074da26a3cf81bd8431c6286934b9f4
 - Tasks & Milestones database: https://app.notion.com/p/4d28f7cd4f86472f849762c8b8b40a12
 - Existing purchase/feed-mill/costing task: https://app.notion.com/p/4074da26a3cf8134ac47f8d1b50ef45c
 - Proposal & Scope of Work / Quotation v1.0 and Detailed Scope & Workflow Specification v1.0 are named baselines; the approved copies still need to be stored/linked when the shared location is ready. Proposal governs commercial terms.
-- Client decisions still open: lay-percentage formula; receiving acknowledgement for shed feed transfers; vaccine reminder defaults/recipients (timing must remain configurable); treatment of dirty/stained eggs for sellable stock; whether external feed sales support partial payments/receivables.
-- Kickoff gates: confirm client identity and decision-maker, written proposal/spec acceptance, advance receipt, client-owned production accounts/subscriptions, and development environment/task board readiness.
+- Client answers are recorded in [`docs/decisions/workflow-decision-register.md`](docs/decisions/workflow-decision-register.md). The lay-percentage formula is a provisional hen-day default; the approved workflow specification is still needed for detailed actors, fields, rules and acceptance criteria.
+- Kickoff gates were declared complete by the owner for work sequencing. Keep the existing Notion payment and gate records unchanged unless evidence and an explicit update request are provided.
 
 ## Initial technical kickoff sequence
 
-1. Confirm kickoff gates and obtain the proposal/spec files before implementation.
+1. Kickoff gates are considered complete per the owner's instruction; obtain the approved proposal/spec files to use as implementation references.
 2. Agree workspace tooling, TypeScript conventions, lint/format rules, and environment variable handling.
 3. Define development and production Supabase environments, access roles, and secret handling before provisioning.
 4. Draft the initial data model, permissions, audit approach, and business invariants from the approved workflows.
@@ -46,4 +48,4 @@ In-scope workflows include flock, shed and vaccination; feed mill and feed costi
 7. Select the first end-to-end workflow and record acceptance criteria/dependencies in the existing tracker.
 8. Validate testing, deployment, and handover steps against the agreed MVP and client-owned accounts.
 
-Scaffold folders are intentionally empty until repository tooling, dependencies, credentials, and project choices are approved or confirmed. Do not invent unresolved workflow rules.
+The local workspace, dependencies, and neutral app shells are established. No secrets or service accounts have been added. Continue building against the recorded decisions and approved scope; do not invent workflow rules that neither source covers.
