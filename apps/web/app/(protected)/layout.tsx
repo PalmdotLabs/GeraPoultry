@@ -51,6 +51,24 @@ const navigation = [
     ),
   },
   {
+    href: '/flocks',
+    label: 'Flocks',
+    permissions: ['flocks.read', 'flocks.create'],
+    icon: <path d="M4 7h16M4 12h16M4 17h16M8 5v14m8-14v14" />,
+  },
+  {
+    href: '/egg-collections',
+    label: 'Egg collection',
+    permissions: ['eggs.collection.read', 'eggs.collection.create'],
+    icon: <path d="M18 14a6 6 0 0 1-12 0C6 10 9 4 12 4s6 6 6 10Z" />,
+  },
+  {
+    href: '/farm-setup',
+    label: 'Farm setup',
+    permission: 'farm.setup.read',
+    icon: <path d="M3 10l9-6 9 6M5 9v11h14V9M9 20v-7h6v7" />,
+  },
+  {
     href: '/users',
     label: 'Users',
     permission: 'users.read',
@@ -96,9 +114,14 @@ function AdministrationNavigation({
   return (
     <nav className="rail-nav" aria-label="Administration">
       {navigation
-        .filter(
-          (item) => !item.permission || permissions.includes(item.permission),
-        )
+        .filter((item) => {
+          const required =
+            item.permissions ?? (item.permission ? [item.permission] : []);
+          return (
+            required.length === 0 ||
+            required.some((code) => permissions.includes(code))
+          );
+        })
         .map((item) => {
           const current =
             path === item.href ||

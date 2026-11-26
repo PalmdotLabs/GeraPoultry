@@ -79,6 +79,12 @@ assert.equal(session.roles[0]?.code, 'admin');
 assert.deepEqual(session.permissions, [
   'admin.access',
   'audit.read',
+  'eggs.collection.create',
+  'eggs.collection.read',
+  'farm.setup.read',
+  'flocks.create',
+  'flocks.mortality.create',
+  'flocks.read',
   'roles.manage',
   'roles.read',
   'users.manage',

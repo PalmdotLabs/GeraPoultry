@@ -34,7 +34,7 @@ select is(
 select results_eq(
   'select code from public.permissions order by code',
   $$select * from (values
-    ('admin.access'), ('audit.read'), ('roles.manage'),
+    ('admin.access'), ('audit.read'), ('eggs.collection.create'), ('eggs.collection.read'), ('farm.setup.read'), ('flocks.create'), ('flocks.mortality.create'), ('flocks.read'), ('roles.manage'),
     ('roles.read'), ('users.manage'), ('users.read')
   ) expected(code)$$,
   'exact initial permission catalog is present'
@@ -52,7 +52,7 @@ select results_eq(
     where r.code = 'admin'
     order by p.code$$,
   'select code from public.permissions order by code',
-  'admin has all six initial permissions'
+  'admin has all initial permissions'
 );
 delete from public.profiles where id = '10000000-0000-0000-0000-000000000004';
 
@@ -247,7 +247,7 @@ select is(
       {"code": "zzz_contract_test", "name": "Last test role"}
     ],
     "permissions": [
-      "admin.access", "audit.read", "roles.manage",
+      "admin.access", "audit.read", "eggs.collection.create", "eggs.collection.read", "farm.setup.read", "flocks.create", "flocks.mortality.create", "flocks.read", "roles.manage",
       "roles.read", "users.manage", "users.read"
     ]
   }'::jsonb,

@@ -42,7 +42,7 @@ The owner has asked that kickoff formalities be considered complete for work seq
 
 ## Technical work to continue
 
-- [ ] Obtain and store/link the approved Proposal & Scope of Work / Quotation v1.0 and Detailed Scope & Workflow Specification v1.0.
+- [x] Archive and link the owner-supplied [proposal and workflow specification v1.0](README.md#source-of-truth).
 - [x] Establish TypeScript/ES module conventions and environment-variable handling.
 - [x] Select lint/format tooling. Root commands are `lint`, `format`, and `format:check`, with framework-specific Expo and Next.js lint presets. ESLint 9 is deliberately pinned because Expo 58's bundled plugins do not currently declare ESLint 10 support. Prettier covers maintained JavaScript/TypeScript, styles, configuration and existing documentation; SQL migrations remain governed by migration review and database tests.
 - [x] Decide development versus production Supabase setup, access roles and secret handling before provisioning; hosted development is now configured and production remains unprovisioned.

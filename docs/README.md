@@ -17,13 +17,18 @@ This folder keeps the current project brief, accepted architecture and known wor
 
 ## Source of truth
 
-The approved Proposal & Scope of Work / Quotation v1.0 governs commercial terms. The approved Detailed Scope & Workflow Specification v1.0 governs detailed workflows. The Notion project record and tracker remain the operational source until their approved attachments are copied into this repository:
+The owner supplied the following v1.0 baselines dated 28 October 2026. The proposal governs commercial terms. The detailed specification defines workflow scope, supplemented by the recorded client decisions.
+
+- [Proposal & Scope of Work / Quotation v1.0](scope/Palm_Labs_Poultry_Farm_Feed_Mill_Proposal_Quotation_v1.0.docx)
+- [Detailed Scope & Workflow Specification v1.0](scope/Palm_Labs_Poultry_Farm_Feed_Mill_Detailed_Scope_and_Workflows_v1.0.docx)
+
+Notion holds the project records and task history:
 
 - [Notion project page](https://app.notion.com/p/4074da26a3cf81c98ae9f8b8c5d8db55)
 - [Client onboarding record](https://app.notion.com/p/4074da26a3cf81bd8431c6286934b9f4)
 - [Tasks & Milestones tracker](https://app.notion.com/p/4d28f7cd4f86472f849762c8b8b40a12)
 
-The proposal and detailed specification copies are not yet in this repository. Until they are available, these notes capture only what is present in the project record and existing tracker; they are not a replacement for the approved documents.
+The archived proposal has blank client and signature fields. Written acceptance and payment evidence are kept separately in the project records.
 
 ## Documentation rules
 

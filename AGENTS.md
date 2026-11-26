@@ -33,13 +33,13 @@ In-scope workflows include flock, shed and vaccination; feed mill and feed costi
 - Client onboarding page: https://app.notion.com/p/4074da26a3cf81bd8431c6286934b9f4
 - Tasks & Milestones database: https://app.notion.com/p/4d28f7cd4f86472f849762c8b8b40a12
 - Existing purchase/feed-mill/costing task: https://app.notion.com/p/4074da26a3cf8134ac47f8d1b50ef45c
-- Proposal & Scope of Work / Quotation v1.0 and Detailed Scope & Workflow Specification v1.0 are named baselines; the approved copies still need to be stored/linked when the shared location is ready. Proposal governs commercial terms.
-- Client answers are recorded in [`docs/decisions/workflow-decision-register.md`](docs/decisions/workflow-decision-register.md). The lay-percentage formula is a provisional hen-day default; the approved workflow specification is still needed for detailed actors, fields, rules and acceptance criteria.
+- The owner-supplied Proposal & Scope of Work / Quotation v1.0 and Detailed Scope & Workflow Specification v1.0 are archived under [the documentation sources](docs/README.md#source-of-truth). The proposal governs commercial terms.
+- Client answers are recorded in [`docs/decisions/workflow-decision-register.md`](docs/decisions/workflow-decision-register.md). The lay-percentage formula is a provisional hen-day default; the [first workflow map](docs/flows/flock-shed-vaccination.md) records the demo boundary and the decisions deferred to future client review.
 - Kickoff gates were declared complete by the owner for work sequencing. Keep the existing Notion payment and gate records unchanged unless evidence and an explicit update request are provided.
 
 ## Initial technical kickoff sequence
 
-1. Kickoff gates are considered complete per the owner's instruction; obtain the approved proposal/spec files to use as implementation references.
+1. Kickoff gates are considered complete per the owner's instruction; use the archived proposal and specification as implementation references.
 2. Agree workspace tooling, TypeScript conventions, lint/format rules, and environment variable handling.
 3. Define development and production Supabase environments, access roles, and secret handling before provisioning.
 4. Draft the initial data model, permissions, audit approach, and business invariants from the approved workflows.

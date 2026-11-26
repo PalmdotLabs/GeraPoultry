@@ -840,6 +840,106 @@ button:disabled {
   text-align: center;
 }
 
+.egg-quality {
+  margin-top: 16px;
+}
+
+.egg-quality legend {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.egg-total {
+  margin: 18px 0 0;
+  font-weight: 700;
+}
+
+.flock-counts-table {
+  min-width: 320px;
+}
+
+.flock-counts-table tbody th {
+  overflow-wrap: anywhere;
+}
+
+.flock-counts-table tfoot {
+  font-weight: 700;
+}
+
+.flock-arrival-table {
+  min-width: 760px;
+}
+
+.flock-arrival-table tbody th {
+  overflow-wrap: anywhere;
+}
+
+.flock-form-section {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.flock-form-section legend {
+  margin-bottom: 14px;
+  padding: 0;
+  font-size: 1.125rem;
+  font-weight: 650;
+}
+
+.flock-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: 16px;
+}
+
+.flock-placements {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  padding-top: 8px;
+}
+
+.flock-placement-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  width: 100%;
+}
+
+.flock-placement-row .field {
+  flex: 1 1 190px;
+  min-width: 0;
+}
+
+.farm-setup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  align-items: start;
+  max-width: 1120px;
+  gap: 24px;
+}
+
+.farm-setup-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.farm-setup-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+.farm-setup-form {
+  gap: 12px;
+  margin-top: 24px;
+}
+
 .admin-role-fieldset {
   min-width: 0;
   margin: 0;

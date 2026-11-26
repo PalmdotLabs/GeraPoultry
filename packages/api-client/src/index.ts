@@ -1,12 +1,20 @@
 import {
   apiErrorResponseSchema,
+  createFarmSetupRecordResponseSchema,
+  createFlockResponseSchema,
   createRoleResponseSchema,
   deleteRoleResponseSchema,
+  flockLiveCountsResponseSchema,
   getUserResponseSchema,
   inviteUserResponseSchema,
   listAuditEventsResponseSchema,
+  listEggCollectionsResponseSchema,
+  listFarmSetupResponseSchema,
+  listFlocksResponseSchema,
   listRolesResponseSchema,
   listUsersResponseSchema,
+  recordEggCollectionResponseSchema,
+  recordFlockMortalityResponseSchema,
   sessionResponseSchema,
   setUserActiveResponseSchema,
   setUserRolesResponseSchema,
@@ -14,9 +22,18 @@ import {
   type ApiErrorCode,
   type ApiErrorIssue,
   type AuditEventList,
+  type CreateFarmSetupRecordRequest,
+  type CreateFlockRequest,
   type CreateRoleRequest,
   type DeleteRoleResult,
+  type EggCollectionList,
+  type FarmSetupKind,
+  type FarmSetupRecord,
+  type FlockList,
+  type FlockLiveCounts,
   type InviteUserRequest,
+  type RecordEggCollectionRequest,
+  type RecordFlockMortalityRequest,
   type Role,
   type RoleList,
   type Session,
@@ -77,6 +94,34 @@ export interface ListOptions extends RequestOptions {
 
 export interface ApiClient {
   getSession(options?: GetSessionOptions): Promise<Session>;
+  listFlocks(options?: ListOptions): Promise<FlockList>;
+  listEggCollections(options?: ListOptions): Promise<EggCollectionList>;
+  recordEggCollection(
+    input: RecordEggCollectionRequest,
+    options?: RequestOptions,
+  ): Promise<{ id: string }>;
+  getFlockLiveCounts(
+    flockId: string,
+    options?: RequestOptions,
+  ): Promise<FlockLiveCounts>;
+  recordFlockMortality(
+    flockId: string,
+    input: RecordFlockMortalityRequest,
+    options?: RequestOptions,
+  ): Promise<{ id: string }>;
+  createFlock(
+    input: CreateFlockRequest,
+    options?: RequestOptions,
+  ): Promise<{ id: string }>;
+  listFarmSetup(
+    kind: FarmSetupKind,
+    options?: RequestOptions,
+  ): Promise<FarmSetupRecord[]>;
+  createFarmSetupRecord(
+    kind: FarmSetupKind,
+    input: CreateFarmSetupRecordRequest,
+    options?: RequestOptions,
+  ): Promise<FarmSetupRecord>;
   listUsers(options?: ListOptions): Promise<UserList>;
   getUser(userId: string, options?: RequestOptions): Promise<User>;
   inviteUser(input: InviteUserRequest, options?: RequestOptions): Promise<User>;
@@ -209,6 +254,106 @@ export const createApiClient = ({
         }
         return result.data.data;
       }),
+
+    listEggCollections: ({ signal, page = 1, perPage = 50 } = {}) =>
+      request(
+        listPath('/api/v1/egg-collections', page, perPage),
+        'GET',
+        signal,
+        (payload, status) => {
+          const result = listEggCollectionsResponseSchema.safeParse(payload);
+          if (!result.success) throw invalidResponse(status);
+          return result.data.data;
+        },
+      ),
+
+    recordEggCollection: (input, { signal } = {}) =>
+      request(
+        '/api/v1/egg-collections',
+        'POST',
+        signal,
+        (payload, status) => {
+          const result = recordEggCollectionResponseSchema.safeParse(payload);
+          if (!result.success) throw invalidResponse(status);
+          return result.data.data;
+        },
+        input,
+      ),
+
+    getFlockLiveCounts: (flockId, { signal } = {}) =>
+      request(
+        `/api/v1/flocks/${encodeURIComponent(flockId)}/live-counts`,
+        'GET',
+        signal,
+        (payload, status) => {
+          const result = flockLiveCountsResponseSchema.safeParse(payload);
+          if (!result.success) throw invalidResponse(status);
+          return result.data.data;
+        },
+      ),
+
+    recordFlockMortality: (flockId, input, { signal } = {}) =>
+      request(
+        `/api/v1/flocks/${encodeURIComponent(flockId)}/mortality`,
+        'POST',
+        signal,
+        (payload, status) => {
+          const result = recordFlockMortalityResponseSchema.safeParse(payload);
+          if (!result.success) throw invalidResponse(status);
+          return result.data.data;
+        },
+        input,
+      ),
+
+    listFlocks: ({ signal, page = 1, perPage = 50 } = {}) =>
+      request(
+        listPath('/api/v1/flocks', page, perPage),
+        'GET',
+        signal,
+        (payload, status) => {
+          const result = listFlocksResponseSchema.safeParse(payload);
+          if (!result.success) throw invalidResponse(status);
+          return result.data.data;
+        },
+      ),
+
+    createFlock: (input, { signal } = {}) =>
+      request(
+        '/api/v1/flocks',
+        'POST',
+        signal,
+        (payload, status) => {
+          const result = createFlockResponseSchema.safeParse(payload);
+          if (!result.success) throw invalidResponse(status);
+          return result.data.data;
+        },
+        input,
+      ),
+
+    listFarmSetup: (kind, { signal } = {}) =>
+      request(
+        `/api/v1/farm-setup/${kind}`,
+        'GET',
+        signal,
+        (payload, status) => {
+          const result = listFarmSetupResponseSchema.safeParse(payload);
+          if (!result.success) throw invalidResponse(status);
+          return result.data.data.records;
+        },
+      ),
+
+    createFarmSetupRecord: (kind, input, { signal } = {}) =>
+      request(
+        `/api/v1/farm-setup/${kind}`,
+        'POST',
+        signal,
+        (payload, status) => {
+          const result = createFarmSetupRecordResponseSchema.safeParse(payload);
+          if (!result.success) throw invalidResponse(status);
+          return result.data.data.record;
+        },
+        input,
+      ),
 
     listUsers: ({ signal, page = 1, perPage = 50 } = {}) =>
       request(

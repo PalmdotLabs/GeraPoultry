@@ -1,21 +1,11 @@
 # Payments, receivables, expenses and reports
 
-**Status:** Scope identified; detailed process awaits the approved workflow specification.
+See [the workflow specification](../README.md#source-of-truth) §§2, 7, 9–11 and C-05 in the [decision register](../decisions/workflow-decision-register.md).
 
-## In-scope capabilities
+| Workflow                 | Source-backed behavior                                                                                                                                                                                                                                                                                                                                  | Acceptance                                                                                                                                                                            |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Receivables and payments | Record payments against a customer/sale reference for eggs and feed. Partial payments reduce the outstanding balance. Show customer balances, due dates and overdue amounts. Apply explicit permission and audit history.                                                                                                                               | Verify partial balances, due dates and traceability. Reconcile transactions without double-counting replays.                                                                          |
+| Expenses                 | Record configured category, amount, date, payment method and optional remarks with explicit create permission.                                                                                                                                                                                                                                          | Reconcile the expense listing and date/category totals to source records.                                                                                                             |
+| Reports                  | Include daily egg production by shed and grade with quality breakdowns, flock counts and mortality/depletion, ingredient and finished-feed stock, feed production/transfers/returns/sales/costing, egg stock by grade/state/source, sales/payment/overdue balances, plastic tray balances, purchases/expenses, low-stock thresholds and lay percentage. | Trace each available report to its records using agreed test data. Reconcile grouped totals and filters. Resolve live hen denominator semantics before accepting the lay-rate report. |
 
-- Record payments and receivables connected to approved sales workflows.
-- Record expenses.
-- Provide agreed reports.
-
-## Confirmed behavior
-
-- External feed sales support partial payments and receivables, following the egg-sales payment pattern. See the [workflow decision register](../decisions/workflow-decision-register.md).
-
-## Awaiting approved specification
-
-- Do not assume account categories, credit rules, due-date handling, payment methods, report definitions or accounting/tax behavior.
-
-## Flow detail to capture
-
-Source transaction, payment entries, balance calculation, correction/void process, expense classification, report filters and totals, access permissions, audit history and acceptance criteria from the approved specification.
+Confirm payment allocation across sales, overpayment and reversal handling, precision and rounding, and notification delivery rules before implementing the related edge cases.

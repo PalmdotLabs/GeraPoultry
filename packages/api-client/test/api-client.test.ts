@@ -460,3 +460,61 @@ test('bearer provider rejection is safe and prevents the fetch', async () => {
   });
   assert.equal(fetchCalls, 0);
 });
+
+test('farm setup lists and creates records using the shared API contract', async () => {
+  const record = { id: userId, name: 'Shed 1' };
+  const client = createApiClient({
+    getAccessToken: () => 'access-token',
+    fetch: async (url, init) => {
+      assert.equal(url, '/api/v1/farm-setup/sheds');
+      assert.equal(
+        new Headers(init?.headers).get('authorization'),
+        'Bearer access-token',
+      );
+      if (init?.method === 'GET') {
+        return Response.json({ data: { records: [record] } });
+      }
+      assert.equal(init?.method, 'POST');
+      assert.equal(init?.body, JSON.stringify({ name: record.name }));
+      return Response.json({ data: { record } }, { status: 201 });
+    },
+  });
+
+  assert.deepEqual(await client.listFarmSetup('sheds'), [record]);
+  assert.deepEqual(
+    await client.createFarmSetupRecord('sheds', { name: record.name }),
+    record,
+  );
+});
+
+test('mortality and live count requests preserve the flock ID and zero balance', async () => {
+  const input = {
+    shedId: roleId,
+    recordedDate: '2026-11-26',
+    birdCount: 40,
+    remarks: 'Observed during morning round',
+    submissionId: requestId,
+  };
+  const placements = [
+    { shedId: roleId, initialBirdCount: 40, liveBirdCount: 0 },
+  ];
+  const client = createApiClient({
+    fetch: async (url, init) => {
+      if (init?.method === 'GET') {
+        assert.equal(url, `/api/v1/flocks/${userId}/live-counts`);
+        return Response.json({ data: { flockId: userId, placements } });
+      }
+      assert.equal(url, `/api/v1/flocks/${userId}/mortality`);
+      assert.equal(init?.method, 'POST');
+      assert.deepEqual(JSON.parse(String(init?.body)), input);
+      return Response.json({ data: { id: permissionId } }, { status: 201 });
+    },
+  });
+  assert.deepEqual(await client.getFlockLiveCounts(userId), {
+    flockId: userId,
+    placements,
+  });
+  assert.deepEqual(await client.recordFlockMortality(userId, input), {
+    id: permissionId,
+  });
+});

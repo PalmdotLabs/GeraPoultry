@@ -42,4 +42,4 @@ See [ADR-001](architecture/decisions/ADR-001-mobile-first-architecture.md).
 
 ## Current limits of this brief
 
-The named proposal and Detailed Scope & Workflow Specification v1.0 have not been copied into this repository yet. The workflow pages here summarize only the current Notion project record and tracker plus the recorded client decisions. Detailed roles, other formulas, transitions, validation and acceptance criteria must come from the approved specification and recorded decisions.
+See the [archived v1.0 documents](README.md#source-of-truth), the [workflow map](flows/README.md) and the [client decisions](decisions/workflow-decision-register.md) for implementation traceability. The proposal includes a five-business-day review window and estimated milestones. The delivery forecast remains dependent on confirmed inputs and acceptance.

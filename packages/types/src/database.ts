@@ -43,6 +43,254 @@ export type Database = {
         };
         Relationships: [];
       };
+      breeds: {
+        Row: {
+          id: string;
+          name: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          id?: string;
+          name: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+        };
+        Relationships: [];
+      };
+      egg_collections: {
+        Row: {
+          collection_date: string;
+          cracked_egg_count: number;
+          created_by: string;
+          dirty_egg_count: number;
+          flock_id: string | null;
+          good_egg_count: number;
+          grade_id: string;
+          id: string;
+          shed_id: string;
+          shift: string;
+          submission_id: string;
+          total_egg_count: number | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          collection_date: string;
+          cracked_egg_count: number;
+          created_by: string;
+          dirty_egg_count: number;
+          flock_id?: string | null;
+          good_egg_count: number;
+          grade_id: string;
+          id?: string;
+          shed_id: string;
+          shift: string;
+          submission_id: string;
+          total_egg_count?: never;
+        };
+        Update: {
+          collection_date?: string;
+          cracked_egg_count?: number;
+          created_by?: string;
+          dirty_egg_count?: number;
+          flock_id?: string | null;
+          good_egg_count?: number;
+          grade_id?: string;
+          id?: string;
+          shed_id?: string;
+          shift?: string;
+          submission_id?: string;
+          total_egg_count?: never;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'egg_collections_created_by_fkey';
+            columns: ['created_by'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'egg_collections_flock_id_shed_id_fkey';
+            columns: ['flock_id', 'shed_id'];
+            isOneToOne: false;
+            referencedRelation: 'flock_placements';
+            referencedColumns: ['flock_id', 'shed_id'];
+          },
+          {
+            foreignKeyName: 'egg_collections_grade_id_fkey';
+            columns: ['grade_id'];
+            isOneToOne: false;
+            referencedRelation: 'egg_grades';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'egg_collections_shed_id_fkey';
+            columns: ['shed_id'];
+            isOneToOne: false;
+            referencedRelation: 'sheds';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      egg_grades: {
+        Row: {
+          id: string;
+          name: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          id?: string;
+          name: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+        };
+        Relationships: [];
+      };
+      flock_mortality: {
+        Row: {
+          bird_count: number;
+          created_at: string;
+          created_by: string;
+          flock_id: string;
+          id: string;
+          recorded_date: string;
+          remarks: string | null;
+          shed_id: string;
+          submission_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          bird_count: number;
+          created_at?: string;
+          created_by: string;
+          flock_id: string;
+          id?: string;
+          recorded_date: string;
+          remarks?: string | null;
+          shed_id: string;
+          submission_id: string;
+        };
+        Update: {
+          bird_count?: number;
+          created_at?: string;
+          created_by?: string;
+          flock_id?: string;
+          id?: string;
+          recorded_date?: string;
+          remarks?: string | null;
+          shed_id?: string;
+          submission_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'flock_mortality_created_by_fkey';
+            columns: ['created_by'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'flock_mortality_flock_id_shed_id_fkey';
+            columns: ['flock_id', 'shed_id'];
+            isOneToOne: false;
+            referencedRelation: 'flock_placements';
+            referencedColumns: ['flock_id', 'shed_id'];
+          },
+        ];
+      };
+      flock_placements: {
+        Row: {
+          bird_count: number;
+          flock_id: string;
+          live_bird_count: number;
+          shed_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          bird_count: number;
+          flock_id: string;
+          live_bird_count: number;
+          shed_id: string;
+        };
+        Update: {
+          bird_count?: number;
+          flock_id?: string;
+          live_bird_count?: number;
+          shed_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'flock_placements_flock_id_fkey';
+            columns: ['flock_id'];
+            isOneToOne: false;
+            referencedRelation: 'flocks';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'flock_placements_shed_id_fkey';
+            columns: ['shed_id'];
+            isOneToOne: false;
+            referencedRelation: 'sheds';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      flocks: {
+        Row: {
+          age_at_arrival: number;
+          age_unit: string;
+          arrival_date: string;
+          batch_code: string;
+          birds_housed: number;
+          breed_id: string;
+          created_by: string;
+          id: string;
+          submission_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          age_at_arrival: number;
+          age_unit: string;
+          arrival_date: string;
+          batch_code: string;
+          birds_housed: number;
+          breed_id: string;
+          created_by: string;
+          id?: string;
+          submission_id: string;
+        };
+        Update: {
+          age_at_arrival?: number;
+          age_unit?: string;
+          arrival_date?: string;
+          batch_code?: string;
+          birds_housed?: number;
+          breed_id?: string;
+          created_by?: string;
+          id?: string;
+          submission_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'flocks_breed_id_fkey';
+            columns: ['breed_id'];
+            isOneToOne: false;
+            referencedRelation: 'breeds';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'flocks_created_by_fkey';
+            columns: ['created_by'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       permissions: {
         Row: {
           code: string;
@@ -158,6 +406,22 @@ export type Database = {
         };
         Relationships: [];
       };
+      sheds: {
+        Row: {
+          id: string;
+          name: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          id?: string;
+          name: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+        };
+        Relationships: [];
+      };
       user_roles: {
         Row: {
           assigned_at: string;
@@ -261,6 +525,47 @@ export type Database = {
       is_authoritative_admin_role: {
         Args: { candidate_role_id: string };
         Returns: boolean;
+      };
+      record_egg_collection: {
+        Args: {
+          p_collection_date: string;
+          p_cracked_egg_count: number;
+          p_dirty_egg_count: number;
+          p_flock_id?: string;
+          p_good_egg_count: number;
+          p_grade_id: string;
+          p_request_id: string;
+          p_shed_id: string;
+          p_shift: string;
+          p_submission_id: string;
+        };
+        Returns: string;
+      };
+      record_flock_mortality: {
+        Args: {
+          p_bird_count: number;
+          p_flock_id: string;
+          p_recorded_date: string;
+          p_remarks: string;
+          p_request_id: string;
+          p_shed_id: string;
+          p_submission_id: string;
+        };
+        Returns: string;
+      };
+      register_flock: {
+        Args: {
+          p_age_at_arrival: number;
+          p_age_unit: string;
+          p_arrival_date: string;
+          p_batch_code: string;
+          p_birds_housed: number;
+          p_breed_id: string;
+          p_placements: Json;
+          p_request_id: string;
+          p_submission_id: string;
+        };
+        Returns: string;
       };
     };
     Enums: {

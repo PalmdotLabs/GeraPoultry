@@ -215,3 +215,198 @@ export type AuditEventList = z.infer<typeof auditEventListSchema>;
 export type ListAuditEventsResponse = z.infer<
   typeof listAuditEventsResponseSchema
 >;
+
+export const farmSetupKindSchema = z.enum(['sheds', 'breeds', 'egg-grades']);
+
+export const createFarmSetupRecordRequestSchema = z.strictObject({
+  name: z.string().trim().min(1).max(120),
+});
+
+export const farmSetupRecordSchema = z.strictObject({
+  id: uuidSchema,
+  name: nonEmptyStringSchema,
+});
+
+export const listFarmSetupResponseSchema = apiResponseSchema(
+  z.strictObject({ records: z.array(farmSetupRecordSchema) }),
+);
+
+export const createFarmSetupRecordResponseSchema = apiResponseSchema(
+  z.strictObject({ record: farmSetupRecordSchema }),
+);
+
+export type FarmSetupKind = z.infer<typeof farmSetupKindSchema>;
+export type CreateFarmSetupRecordRequest = z.infer<
+  typeof createFarmSetupRecordRequestSchema
+>;
+export type FarmSetupRecord = z.infer<typeof farmSetupRecordSchema>;
+
+const operationalDateSchema = z.iso
+  .date()
+  .refine((date) => !date.startsWith('0000-'));
+const pgIntegerMax = 2_147_483_647;
+const birdCountSchema = z.number().int().min(1).max(pgIntegerMax);
+const flockPlacementSchema = z.strictObject({
+  shedId: uuidSchema.transform((id) => id.toLowerCase()),
+  birdCount: birdCountSchema,
+});
+
+const flockArrivalFields = {
+  batchCode: z.string().trim().min(1).max(120),
+  breedId: uuidSchema,
+  arrivalDate: operationalDateSchema,
+  ageAtArrival: z.number().int().min(0).max(pgIntegerMax),
+  ageUnit: z.enum(['days', 'weeks']),
+  birdsHoused: birdCountSchema,
+  placements: z.array(flockPlacementSchema).min(1),
+};
+
+export const createFlockRequestSchema = z
+  .strictObject({ ...flockArrivalFields, submissionId: uuidSchema })
+  .superRefine(({ placements, birdsHoused }, ctx) => {
+    const shedIds = new Set(placements.map(({ shedId }) => shedId));
+    if (shedIds.size !== placements.length) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['placements'],
+        message: 'Each shed can appear only once.',
+      });
+    }
+    if (
+      placements.reduce((total, row) => total + row.birdCount, 0) !==
+      birdsHoused
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['placements'],
+        message: 'Allocate all housed birds.',
+      });
+    }
+  });
+
+export const createFlockResponseSchema = apiResponseSchema(
+  z.strictObject({ id: uuidSchema }),
+);
+
+export const flockListSchema = z.strictObject({
+  flocks: z.array(z.strictObject({ id: uuidSchema, ...flockArrivalFields })),
+  page: z.number().int().min(1),
+  perPage: z.number().int().min(1).max(100),
+  total: z.number().int().nonnegative(),
+});
+
+export const listFlocksResponseSchema = apiResponseSchema(flockListSchema);
+
+export type CreateFlockRequest = z.infer<typeof createFlockRequestSchema>;
+export type FlockList = z.infer<typeof flockListSchema>;
+
+export const recordFlockMortalityRequestSchema = z.strictObject({
+  shedId: uuidSchema,
+  recordedDate: operationalDateSchema,
+  birdCount: birdCountSchema,
+  remarks: z.string().trim().max(500).optional(),
+  submissionId: uuidSchema,
+});
+
+export const recordFlockMortalityResponseSchema = apiResponseSchema(
+  z.strictObject({ id: uuidSchema }),
+);
+
+const nonnegativePgIntegerSchema = z.number().int().min(0).max(pgIntegerMax);
+
+export const flockLiveCountsSchema = z.strictObject({
+  flockId: uuidSchema,
+  placements: z
+    .array(
+      z.strictObject({
+        shedId: uuidSchema,
+        initialBirdCount: birdCountSchema,
+        liveBirdCount: nonnegativePgIntegerSchema,
+      }),
+    )
+    .min(1),
+});
+
+export const flockLiveCountsResponseSchema = apiResponseSchema(
+  flockLiveCountsSchema,
+);
+
+export type RecordFlockMortalityRequest = z.infer<
+  typeof recordFlockMortalityRequestSchema
+>;
+export type FlockLiveCounts = z.infer<typeof flockLiveCountsSchema>;
+
+export const eggsPerTray = 30;
+
+export function countCollectedEggs({
+  trays,
+  looseEggs,
+}: {
+  trays: number;
+  looseEggs: number;
+}) {
+  return trays * eggsPerTray + looseEggs;
+}
+
+const eggQuantitySchema = z
+  .strictObject({
+    trays: z
+      .number()
+      .int()
+      .min(0)
+      .max(Math.floor(pgIntegerMax / eggsPerTray)),
+    looseEggs: nonnegativePgIntegerSchema,
+  })
+  .refine((quantity) => countCollectedEggs(quantity) <= pgIntegerMax, {
+    message: 'Trays and loose eggs exceed the supported egg count.',
+  });
+
+const eggCollectionDetails = {
+  collectionDate: operationalDateSchema,
+  shedId: uuidSchema,
+  shift: z.string().trim().min(1).max(80),
+  gradeId: uuidSchema,
+};
+
+export const recordEggCollectionRequestSchema = z.strictObject({
+  ...eggCollectionDetails,
+  flockId: uuidSchema.nullable().optional(),
+  good: eggQuantitySchema,
+  cracked: eggQuantitySchema,
+  dirty: eggQuantitySchema,
+  submissionId: uuidSchema,
+});
+
+export const recordEggCollectionResponseSchema = apiResponseSchema(
+  z.strictObject({ id: uuidSchema }),
+);
+
+export const eggCollectionListSchema = z.strictObject({
+  collections: z.array(
+    z.strictObject({
+      ...eggCollectionDetails,
+      id: uuidSchema,
+      flockId: uuidSchema.nullable(),
+      goodEggCount: nonnegativePgIntegerSchema,
+      crackedEggCount: nonnegativePgIntegerSchema,
+      dirtyEggCount: nonnegativePgIntegerSchema,
+      totalEggCount: z
+        .number()
+        .int()
+        .min(0)
+        .max(3 * pgIntegerMax),
+    }),
+  ),
+  page: z.number().int().min(1),
+  perPage: z.number().int().min(1).max(100),
+  total: z.number().int().nonnegative(),
+});
+
+export const listEggCollectionsResponseSchema = apiResponseSchema(
+  eggCollectionListSchema,
+);
+
+export type RecordEggCollectionRequest = z.infer<
+  typeof recordEggCollectionRequestSchema
+>;
+export type EggCollectionList = z.infer<typeof eggCollectionListSchema>;

@@ -1,19 +1,16 @@
 # Purchases, feed mill and costing
 
-**Status:** Scope identified; detailed process awaits the approved workflow specification.
+See [the workflow specification](../README.md#source-of-truth) §§2–3, 6–7 and C-02/C-05 in the [decision register](../decisions/workflow-decision-register.md).
 
-## In-scope capabilities
+| Workflow                          | Source-backed behavior                                                                                                                                                                                                                                                                              | Acceptance                                                                                                                          |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Ingredient and medicine purchases | Require item, supplier and purchase cost. Capture date and quantity as specified, with kg for feed ingredient stock. Ingredient receipt increases stock and preserves cost.                                                                                                                         | Check required fields, access, quantity and current/low stock. Reconcile received ingredients to available quantities.              |
+| Chick and paper-tray purchases    | Record chick purchase or arrival details needed for a flock batch, and paper tray purchases and usage.                                                                                                                                                                                              | Preserve traceability to the flock or tray records. Paper trays have no return balance.                                             |
+| Formula setup                     | Authorised user maintains a formula basis and ingredient proportions. Support entered batch quantities and historical versions or snapshots.                                                                                                                                                        | Equivalent formulas scale consistently across variable batch sizes. Historical production retains its original recipe.              |
+| Production and costing            | Select formula/version and target quantity. Validate ingredients on the server, deduct them and increase finished stock atomically. Save costs used, estimated total and per-kg cost.                                                                                                               | Reject shortages, keep historical costs stable and reconcile stock and batch cost from recorded inputs. Costing covers ingredients. |
+| Shed feed transfers and returns   | Record date, mill source, shed, feed type and quantity. Decrease mill stock and record the shed allocation. The sender completes the transfer. Transferred feed is treated as consumed by default unless unused feed is returned. A return records the movement and restores the appropriate stock. | Validate quantity and balance both sides. Verify sender completion, no mandatory return reason and one stock credit per return.     |
+| External feed sales               | Record customer, feed type, quantity and date. Deduct dispatched feed and support partial payments and receivables under C-05.                                                                                                                                                                      | Reject insufficient stock. Reconcile dispatched quantity, payments and outstanding amount.                                          |
 
-- Record purchases of ingredients, medicine, chicks, eggs and paper trays.
-- Manage feed formula batches, feed production stock movements and feed costing.
-- The existing tracker task for purchases/feed mill/costing notes compulsory supplier and cost on ingredient/medicine purchases, variable-size formula batches, production stock movements and batch cost per kilogram.
+Confirm the ingredient cost selection method, recipe precision and rounding, correction behavior, and how to represent shed allocation alongside consumption by default before implementing the related stock transitions.
 
-## Flow detail to capture
-
-Purchase receipt and correction rules; units and conversions; formula versioning; batch input/output quantities; stock movement timing; cost calculation and rounding; permissions; audit history; acceptance criteria. These details are not specified here and must be taken from the approved scope and client answers.
-
-The separate shed-to-shed feed transfer rule is documented in [flock, shed and vaccination](flock-shed-vaccination.md): no receiving acknowledgement is required.
-
-## Related source
-
-[Existing Notion task: Build purchases, feed mill and costing](https://app.notion.com/p/4074da26a3cf8134ac47f8d1b50ef45c).
+[Existing Notion task for purchases, feed mill and costing](https://app.notion.com/p/4074da26a3cf8134ac47f8d1b50ef45c).
